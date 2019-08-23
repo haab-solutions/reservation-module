@@ -1,8 +1,13 @@
 const express = require ('express')
 const app = express()
 const port = 3000
+const db = require('../database-mysql');
 
-app.get('/', (req, res) => {
+
+
+app.use(express.static('public'))
+
+app.get('/s', (req, res) => {
   res.send("tesing is working")
 })
 

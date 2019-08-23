@@ -10,36 +10,33 @@ Challenges/Goals:
   Optional: dynamic rendering based off of the position of the page
 
 
-Setup:
-  Install necessary dependencies and packages for Client, Server, and Database
-    Client:
-      React
-      Redux
-      Babel
-      Webpack
-      **MISSING CSS PREPROCESSOR HERE**
-    Server:
-      Express
-      Nodemon
-    Database:
-      MySQL
-      Sequelize
-  Create schema for mySQL based off the data in which I need to pull
-    listings table
-    reservations table
-
-  Generate random data to be put into database
-    1 listing with random data put in
-    100 random reserved dates
-
+XXSetup:
+XXInstall necessary dependencies and packages for Client, Server, and Database
+XX  Client:
+XX    React
+XX    Redux
+XX    Babel
+XX    Webpack
+XX  Server:
+XX    Express
+XX    Nodemon
+XX  Database:
+XX    MySQL
+XX    Sequelize
+XXCreate schema for mySQL based off the data in which I need to pull
+XX  listings table
+XX  reservations table
+XXGenerate rand om data to be put into database
+XX  100 listing with random data put in
+XX  1000 random reserved dates
 Plan:
   I. SETUP CLIENT, SERVER, AND DATABASE
-    1. Make a working server and client
-      a. make a working server using express
-        1. should be able to get test data using a get request sent to the root directory
-      b. make a working client server using React
-        1. should be able to render the html page with test text
-        2. should be able to render test text with React component placed inside
+XX  1. Make a working server and client
+XX   a. make a working server using express
+XX      1. should be able to get test data using a get request sent to the root directory
+XX   b. make a working client server using React
+XX      1. should be able to render the html page with test text
+XX      2. should be able to render test text with React component placed inside
     2. Integrate server and database
       a. make necessary API paths to server and database
         1. should be able to GET listing data from database and parse into a JSON object
@@ -133,7 +130,8 @@ Plan:
         7. should have an arrow pointing up on the side of the display
 
   VI. DATES COMPONENT APPLICATION
-    1. Add necessary states to the client side
+    1.+
+     Add necessary states to the client side
       a. Add states for "dates"
         1.
 *************************************************** TO DO PART 6 ***********************************************************************
