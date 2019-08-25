@@ -73,12 +73,12 @@ XX    d. Finish stylizing component
 XX      1. should have faded line at the bottom of the component
   IV. APP DESIGN (RESERVATION COMPONENT)
     1. Add necessary components to the client side
-      a. Add component for "reservations"
-        1. should have a new custom component integrated into the Outer Component underneath the "costAndReviews" component
-      b. Add component for dates (to be finished in upcoming part)
+XX    a. Add component for "reservations"
+XX      1. should have a new custom component integrated into the Outer Component underneath the "costAndReviews" component
+XX    b. Add component for dates (to be finished in upcoming part)
         1. should have a new component for Dates integrated into reservations component
         2. should have two buttons on the left and right sides
-      c. Add component for "guests" (to be finished in upcoming part)
+XX    c. Add component for "guests" (to be finished in upcoming part)
         1. should have a new component for "guests" integrated into the reservations component
         2. should have a button
       d. Add button for "Reserve"

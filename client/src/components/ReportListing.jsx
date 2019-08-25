@@ -12,7 +12,6 @@ const StyledDiv = styled.div`
   const StyledReportButton = styled.button`
   height:20px;
   border: none;
-  background: white;
   display:flex;
   background: white;
 
@@ -40,7 +39,6 @@ function ReportListing (props) {
     <StyledDiv>
       <StyledReportButton>
         <Flag src="https://cdn.clipart.email/edf73ce7a4365cd5ca93f548690f2250_flag-outline-clip-art-at-clkercom-vector-clip-art-online-_546-597.png">
-
         </Flag>
         <StyledReportWords>Report this Listing</StyledReportWords>
       </StyledReportButton>

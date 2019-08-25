@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import CostsAndReviews from './CostsAndReviews.jsx'
 import FadedLine from './fadedLine.jsx'
+import Reservations from './Reservations.jsx'
 
 const StyledOuter = styled.div`
   width:376px;
-  height: 550px;
+  height: 352.2px;
   border-style: solid;
   border-width: 1px;
   border-color: #C0C0C0;
@@ -18,6 +19,7 @@ function OuterComponent(props) {
     <StyledOuter>
       <CostsAndReviews state = {props.state}/>
       <FadedLine/>
+      <Reservations/>
     </StyledOuter>
   )
 }
