@@ -30,6 +30,9 @@ display: flex;
 align-items: flex-end;
 justify-content: space-between;
 padding-right: 20px;
+&:hover {
+  cursor: pointer;
+};
 `;
 
 const GuestsWords = styled.div`
@@ -59,7 +62,6 @@ display: inline-block;
 padding: 3px;
 transform: rotate(-135deg);
 -webkit-transform: rotate(-135deg);
-align-self: flex-start;
 `;
 
 class Guests extends React.Component {

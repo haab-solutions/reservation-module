@@ -23,9 +23,20 @@ border-width: 1px;
 display: flex;
 `;
 
+const ArrowRight = styled.div`
+width: 4px;
+height: 4px;
+border: solid black;
+border-width: 0 1px 1px 0;
+display: inline-block;
+padding: 3px;
+transform: rotate(-45deg);
+-webkit-transform: rotate(-45deg);
+align-self: center;
+`;
+
 const Arrow = styled.div`
-width: 15%;
-height:24px;
+${ArrowRight}
 `;
 
 const StyledCheck = styled.button`
@@ -41,7 +52,7 @@ function Dates (props) {
       <DatesWord>Dates</DatesWord>
       <DatesBox>
         <StyledCheck>click me</StyledCheck>
-        <Arrow/>
+        <Arrow></Arrow>
         <StyledCheck>click me</StyledCheck>
       </DatesBox>
     </DatesOuter>
