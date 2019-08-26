@@ -12,6 +12,15 @@ class App extends React.Component {
       cost: null,
       rating: null,
       ratingAmount: null,
+      guestsAllowed: null,
+      guestsInfants: null,
+      cleaningFee: null,
+      serviceFee: null,
+      occupancyFee: null,
+      daysMinimum: null,
+      guestsChosen: 1,
+      guestsInfantsChosen: null,
+      daysChosen: null,
     }
   }
   componentDidMount() {
@@ -26,6 +35,12 @@ class App extends React.Component {
           cost: result.perNight,
           rating: result.Rating,
           ratingAmount: result.RatingAmount,
+          guestsAllowed: result.guestsAllowed,
+          guestsInfants: result.guestsInfants,
+          cleaningFee: result.cleaningFee,
+          serviceFee: result.serviceFee,
+          occupancyFee: result.occupancyFee,
+          daysMinimum: result.daysMinimum,
         })
       },
     });

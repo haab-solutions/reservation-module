@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import CostsAndReviews from './CostsAndReviews.jsx'
 import FadedLine from './fadedLine.jsx'
 import Reservations from './Reservations.jsx'
+import ReservationButton from './ReservationButton.jsx'
 
 const StyledOuter = styled.div`
-  width:376px;
-  height: 352.2px;
+  width:360px;
+  height: 340px;
   border-style: solid;
   border-width: 1px;
-  border-color: #C0C0C0;
+  border-color: #DCDCDC;
   padding: 15px 24px;
   margin: 15px;
 `;
@@ -19,7 +20,8 @@ function OuterComponent(props) {
     <StyledOuter>
       <CostsAndReviews state = {props.state}/>
       <FadedLine/>
-      <Reservations/>
+      <Reservations state = {props.state}/>
+      <ReservationButton/>
     </StyledOuter>
   )
 }

@@ -12,9 +12,9 @@ const DatesOuter = styled.div`
 padding-bottom: 13px;
 `;
 const DatesBox = styled.div`
-width:325.6px;
-height: 41.6px;
-width: 99%
+height: 22px;
+width: 95.5%;
+padding: 8px;
 margin-left: auto;
 margin-right: auto;
 border-color: #DCDCDC;
@@ -25,12 +25,11 @@ display: flex;
 
 const Arrow = styled.div`
 width: 15%;
-height: 24px;
+height:24px;
 `;
 
 const StyledCheck = styled.button`
   width: 50%;
-  height:40px;
   background: white;
   border: none;
 `;

@@ -76,13 +76,13 @@ XX      1. should have faded line at the bottom of the component
 XX    a. Add component for "reservations"
 XX      1. should have a new custom component integrated into the Outer Component underneath the "costAndReviews" component
 XX    b. Add component for dates (to be finished in upcoming part)
-        1. should have a new component for Dates integrated into reservations component
-        2. should have two buttons on the left and right sides
+XX      1. should have a new component for Dates integrated into reservations component
+XX      2. should have two buttons on the left and right sides
 XX    c. Add component for "guests" (to be finished in upcoming part)
-        1. should have a new component for "guests" integrated into the reservations component
-        2. should have a button
-      d. Add button for "Reserve"
-        1. should be clickable
+XX      1. should have a new component for "guests" integrated into the reservations component
+XX      2. should have a button
+XX    d. Add button for "Reserve"
+      1. should be clickable
     2. Make CSS stylings aesthetically pleasing
       a. Stylize the "reservations" component with this component being the child container and the outer component being the parent container, underneath the "costAndReviews"
       b. Stylize the dates component
@@ -98,12 +98,11 @@ XX    c. Add component for "guests" (to be finished in upcoming part)
         2. should have "You won't be charged yet" words on the bottom
   V. GUESTS COMPONENT APPLICATION
     1. Add necessary states to the client side
-      a. Add states for "guests" component
-        1. should have a state which initializes by performing a GET request to the server for the maximum guests
-        2. should have a state which initializes by performing a GET request to the server for the maximum infants
-        3. should have a state for number of adults chosen
-        4. should have a state for number of children chosen
-        5. should have a state for number of infants chosen
+XX    a. Add states for "guests" component
+XX      1. should have a state which initializes by performing a GET request to the server for the maximum guests
+XX      2. should have a state which initializes by performing a GET request to the server for the maximum infants
+XX      3. should have a state for number of Guests chosen
+XX       5. should have a state for number of infants chosen
     2. Add a drop down table for selecing the amount of guests and infants
       a. add options with buttons
         1. should have an adults option with plus and minus buttons that have onchange buttons attached to the number of adults chosen

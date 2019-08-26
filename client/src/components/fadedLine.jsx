@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Faded = styled.div`
-width: 99%;
+width: 100%;
 margin-left: auto;
 margin-right: auto;
 border-color: #DCDCDC;
