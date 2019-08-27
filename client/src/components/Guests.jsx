@@ -86,19 +86,22 @@ class Guests extends React.Component {
   }
 
   render () {
-    const word = this.props.state.guestsChosen === 1 ? "guest": "guests";
+    const numGuests = this.props.state.adultsChosen + this.props.state.childrenChosen
+    const word = numGuests === 1 ? "guest": "guests";
     return (
       <div>
         <GuestsWord>Guests</GuestsWord>
         <GuestsBox onClick = {() => this.showGuestsModal(this.state.show)}>
           <GuestsButton>
             <GuestsWords>
-              {this.props.state.guestsChosen} {word}
+              {numGuests} {word}
             </GuestsWords>
             {this.renderArrow()}
           </GuestsButton>
         </GuestsBox>
-        <GuestsModal show = {this.state.show} showGuestsModal = {this.showGuestsModal}></GuestsModal>
+        <GuestsModal show = {this.state.show} showGuestsModal = {this.showGuestsModal} state = {this.props.state}
+        onAdd = {this.props.onAdd} onSub = {this.props.onSub}
+        ></GuestsModal>
       </div>
     )
   }

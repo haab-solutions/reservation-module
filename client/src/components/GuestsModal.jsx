@@ -23,7 +23,6 @@ const FunctionalComp = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 5px;
-  padding: 5px;
 `;
 
 const TextBox = styled.div`
@@ -34,14 +33,16 @@ const TextBox = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  padding-bottom: 40px;
+  padding-bottom: 20px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TextBig = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 15px;
   font-weight: bold;
-  padding-bottom:7px;
+  padding-top: 18px;
 `;
 
 
@@ -51,24 +52,32 @@ const TextSmall = styled.div`
 `;
 
 const ButtonsBox = styled.div`
-  width: 100px;
-  height: 200px;
+  width: 120px;
   display: flex;
   flex-direction: column;
 `;
 
 const ButtonsWrapper = styled.div`
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   display: flex;
-
+  align-items: center;
 `;
 
-const button = styled.button`
-
+const Button = styled.button`
+border-radius: 100%;
+border: 1px solid #1c828c;
+width: 40px;
+height: 40px;
+background: white;
+font-size: 17px;
+color: #1c828c;
 `;
 
-const number = styled.div`
-
+const Number = styled.div`
+font-family:Roboto,Helvetica Neue,sans-serif;
+font-size: 15px;
+font-weight: bold;
+padding: 15px;
 `;
 
 const CloseButtonWrapper = styled.div`
@@ -126,18 +135,24 @@ function GuestsModal (props) {
         </TextBox>
         <ButtonsBox>
           <ButtonsWrapper>
-            hello
+            <Button onClick = {() =>props.onSub("adultsChosen")}>-</Button>
+            <Number>{props.state.adultsChosen}</Number>
+            <Button onClick = {() =>props.onAdd("adultsChosen")}>+</Button>
           </ButtonsWrapper>
           <ButtonsWrapper>
-            hello
+            <Button onClick = {() =>props.onSub("childrenChosen")}>-</Button>
+            <Number>{props.state.childrenChosen}</Number>
+            <Button onClick = {() =>props.onAdd("childrenChosen")}>+</Button>
           </ButtonsWrapper>
           <ButtonsWrapper>
-            hello
+            <Button onClick = {() =>props.onSub("infantsChosen")}>-</Button>
+            <Number>{props.state.infantsChosen}</Number>
+            <Button onClick = {() =>props.onAdd("infantsChosen")}>+</Button>
           </ButtonsWrapper>
         </ButtonsBox>
       </FunctionalComp>
       <TextSmall>
-        3 Guests maximum. infants don't count toward the number of guests.
+        {props.state.guestsAllowed} Guests maximum. infants don't count toward the number of guests.
       </TextSmall>
       <CloseButtonWrapper>
         <CloseButton onClick = {() => props.showGuestsModal(props.show)}>
