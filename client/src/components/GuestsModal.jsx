@@ -64,49 +64,97 @@ const ButtonsWrapper = styled.div`
 `;
 
 const Button = styled.button`
-border-radius: 100%;
-border: 1px solid #1c828c;
-width: 40px;
-height: 40px;
-background: white;
-font-size: 17px;
-color: #1c828c;
+  border-radius: 100%;
+  border: 1px solid #1c828c;
+  width: 40px;
+  height: 40px;
+  background: white;
+  font-size: 17px;
+  color: #1c828c;
+  transition: box-shadow .5s;
+  &:focus {
+    outline: 0;
+  };
+  &:active {
+    outline: 0;
+    box-shadow :  0 0 0 5px white, 0 0 0 6px #808080;
+  }
 `;
+
+const GrayButton = styled.button`
+  border-radius: 100%;
+  border: 1px solid #1c828c;
+  width: 40px;
+  height: 40px;
+  background: white;
+  font-size: 17px;
+  color: #1c828c;
+  opacity: 0.2;
+  &:focus {
+    outline: 0;
+  };
+`;
+
 
 const Number = styled.div`
-font-family:Roboto,Helvetica Neue,sans-serif;
-font-size: 15px;
-font-weight: bold;
-padding: 15px;
-`;
-
-const CloseButtonWrapper = styled.div`
-display:flex;
-justify-content: flex-end;
-margin: 15px;
-padding: 15px;
-`;
-
-const CloseButton = styled.button`
-  width:16px;
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 15px;
   font-weight: bold;
-  border: none;
-  color: #1c828c;
-  background: white;
-  text-align: right;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
+  padding: 15px;
 `;
+
+const CloseButtonWrapper = styled.div`
+  display:flex;
+  justify-content: flex-end;
+  margin: 15px;
+  padding: 15px;
+`;
+
+const CloseButton = styled.button`
+    width:16px;
+    font-family:Roboto,Helvetica Neue,sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    color: #1c828c;
+    background: white;
+    text-align: right;
+    &:focus {
+      outline: 0;
+    };
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+`;
+
 
 
 function GuestsModal (props) {
   if (props.show === false) {
     return null;
   }
+  const changeButton = (name, type) => {
+
+    if (name === "adultsChosen" || name === "childrenChosen") {
+      //for adults and children changing the type
+      if (type === "-") {
+        if (name === "adultsChosen") {
+          return props.state[name] === 1 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+        }
+        return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+      }
+      //for addition for adults and children buttons
+      return  props.state.adultsChosen + props.state.childrenChosen === props.state.guestsAllowed ?
+      <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onAdd(name)}>{type}</Button>
+    }
+    //for the infants plus and minus
+    if (type === "-") {
+      return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+    }
+    return props.state[name] === props.state.guestsInfants ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() => props.onAdd(name)}>{type}</Button>
+  }
+
   return (
     <Modal>
       <FunctionalComp>
@@ -135,19 +183,19 @@ function GuestsModal (props) {
         </TextBox>
         <ButtonsBox>
           <ButtonsWrapper>
-            <Button onClick = {() =>props.onSub("adultsChosen")}>-</Button>
+            {changeButton("adultsChosen", "-" )}
             <Number>{props.state.adultsChosen}</Number>
-            <Button onClick = {() =>props.onAdd("adultsChosen")}>+</Button>
+            {changeButton("adultsChosen", "+" )}
           </ButtonsWrapper>
           <ButtonsWrapper>
-            <Button onClick = {() =>props.onSub("childrenChosen")}>-</Button>
+            {changeButton("childrenChosen", "-" )}
             <Number>{props.state.childrenChosen}</Number>
-            <Button onClick = {() =>props.onAdd("childrenChosen")}>+</Button>
+            {changeButton("childrenChosen", "+" )}
           </ButtonsWrapper>
           <ButtonsWrapper>
-            <Button onClick = {() =>props.onSub("infantsChosen")}>-</Button>
+            {changeButton("infantsChosen", "-" )}
             <Number>{props.state.infantsChosen}</Number>
-            <Button onClick = {() =>props.onAdd("infantsChosen")}>+</Button>
+            {changeButton("infantsChosen", "+" )}
           </ButtonsWrapper>
         </ButtonsBox>
       </FunctionalComp>

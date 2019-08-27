@@ -9,6 +9,7 @@ class App extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
+//pulled from server
       cost: null,
       rating: null,
       ratingAmount: null,
@@ -18,14 +19,18 @@ class App extends React.Component {
       serviceFee: null,
       occupancyFee: null,
       daysMinimum: null,
+//choices made in app
       adultsChosen: 1,
       childrenChosen: 0,
       infantsChosen: 0,
       daysChosen: null,
+      startDate: null,
+      endDate: null,
     }
     this.onAddGuest = this.onAddGuest.bind(this);
     this.onSubGuest = this.onSubGuest.bind(this);
   }
+
   componentDidMount() {
     this.getListingdata()
   }
@@ -50,8 +55,10 @@ class App extends React.Component {
   }
 
   onAddGuest(string) {
-    if (this.state.adultsChosen + this.state.childrenChosen === this.state.guestsAllowed) {
+    if (string === "childrenChosen" || string == "adultsChosen") {
+      if (this.state.adultsChosen + this.state.childrenChosen === this.state.guestsAllowed) {
       return;
+      }
     } else if (string === "infantsChosen") {
       if (this.state.guestsInfants === this.state.infantsChosen) {
         return;

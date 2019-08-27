@@ -16,8 +16,17 @@ background-color:  #ff3333;
 font-family:Roboto,Helvetica Neue,sans-serif;
 font-size: 17px;
 font-weight: bold;
+transition: box-shadow .3s;
+&:focus {
+  outline: 0;
+};
 &:hover {
   cursor: pointer;
+}
+&:active {
+  background-color: #DC143C;
+  outline: 0;
+  box-shadow :  0 0 0 5px white, 0 0 0 6px #808080;
 }
 `;
 
