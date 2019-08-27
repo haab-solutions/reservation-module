@@ -35,9 +35,6 @@ transform: rotate(-45deg);
 align-self: center;
 `;
 
-const Arrow = styled.div`
-${ArrowRight}
-`;
 
 const StyledCheck = styled.button`
   width: 50%;
@@ -52,7 +49,7 @@ function Dates (props) {
       <DatesWord>Dates</DatesWord>
       <DatesBox>
         <StyledCheck>click me</StyledCheck>
-        <Arrow></Arrow>
+        <ArrowRight></ArrowRight>
         <StyledCheck>click me</StyledCheck>
       </DatesBox>
     </DatesOuter>
