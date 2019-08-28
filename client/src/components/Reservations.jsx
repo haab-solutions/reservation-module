@@ -12,7 +12,7 @@ const StyledResOuter = styled.div`
 function Reservations (props) {
   return (
     <StyledResOuter>
-      <Dates/>
+      <Dates state = {props.state}/>
       <Guests state = {props.state} onAdd = {props.onAdd} onSub = {props.onSub}/>
     </StyledResOuter>
   )

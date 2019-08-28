@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Modal = styled.div`
-  width: 500px;
   z-index:1;
   background: white;
   border: 1px solid #D3D3D3;

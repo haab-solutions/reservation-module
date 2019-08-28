@@ -87,7 +87,7 @@ class Guests extends React.Component {
 
   render () {
     const numGuests = this.props.state.adultsChosen + this.props.state.childrenChosen
-    const word = numGuests === 1 ? "guest ": "guests ";
+    const word = numGuests === 1 ? "guest": "guests";
     const infantWord = this.props.state.infantsChosen === 0 ? "" :
       this.props.state.infantsChosen === 1 ? `, ${this.props.state.infantsChosen} infant` : `, ${this.props.state.infantsChosen} infants`
     return (
