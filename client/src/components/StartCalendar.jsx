@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-Components'
-import calendar from './CalendarHelpers/calendar.jsx'
-import CalendarRow from './CalendarRow.jsx'
 
 const Modal = styled.div`
   z-index:1;
@@ -19,6 +17,7 @@ const Modal = styled.div`
   display:flex;
   flex-direction: column;
 `;
+
 const ButtonWords = styled.div`
   display: flex;
   flex-direction: row;
@@ -31,6 +30,7 @@ const DisplayWords = styled.div`
   font-size: 18px;
   color: #404040;
   font-weight: bold;
+
 `;
 
 const LeftRight = styled.button`
@@ -59,6 +59,7 @@ const WeekWords = styled.div`
   padding-top: 20px;
   padding-bottom: 10px;
 `;
+
 const WeekWord = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 13px;
@@ -66,25 +67,165 @@ const WeekWord = styled.div`
 `
 
 const TableDates = styled.table`
-width: 100%;
-height: 70%;
-border: 1px solid #D3D3D3;
-border-collapse: collapse;
+  width: 100%;
+  height: 70%;
+  border-collapse: collapse;
+  display: table;
 `;
+
+const TableCells = styled.td`
+  border: 1px solid #D3D3D3;
+  justify-content: center;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const TableCellGray = styled.td`
+border: 1px solid #D3D3D3;
+  justify-content: center;
+  text-align: center;
+`;
+
+const TableCellButton = styled.button`
+  width:100%;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  background: white;
+  border: none;
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 
 class Calendar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth()
+      month: new Date().getMonth(),
+      lastMonth: null,
+      nextMonth: null,
+      lastYear: null,
+      nextYear: null,
     }
+  }
+  componentDidMount() {
+    if (this.state.month === 0) {
+      this.setState({
+        lastMonth: 11,
+      })
+    }
+    if (this.state.month === 11) {
+      this.setState({
+        nextMonth: 0,
+      })
+    }
+    this.setState({
+      lastMonth: this.state.month - 1,
+      nextMonth: this.state.month + 1,
+      lastYear: this.state.year - 1,
+      nextYear: this.state.year + 1,
+    })
   }
 
   renderMonthYear() {
     var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September",
       "October", "November", "December" ]
     return ` ${months[this.state.month]} ${this.state.year}`
+  }
+
+  renderDay() {
+    //reservation dates prepared
+    const reservationDates = [];
+    for (var reservation of this.props.state.reservations) {
+
+      var startMonth = new Date(reservation.startDate).getMonth()
+      var startDay = new Date(reservation.startDate).getDate()
+      var endMonth = new Date(reservation.endDate).getMonth()
+      var endDay = new Date(reservation.endDate).getDate()
+      var daysInBetween = [];
+      reservationDates.push({startMonth: startMonth, startDay: startDay, endMonth: endMonth, endDay: endDay,})
+    }
+
+    //for padding number with 0
+    const zeroPad = (value, length) => {
+      return `${value}`.padStart(length, '0');
+    }
+    //for getting the amount of days in a month
+    const getMonthDays = (month = this.state.month, year = this.state.year) => {
+      const months30 = [3, 5, 8, 10];
+      const leapYear = year % 4 === 0;
+      return month === 1
+        ? leapYear
+          ? 29
+          : 28
+        : months30.includes(month)
+          ? 30
+          : 31;
+    }
+    //for getting the first day of the month
+    const getMonthFirstDay = (month = this.state.month, year = this.state.year) => {
+      return (new Date(year, month, 1).getDay());
+    }
+    //variables of month days and the first day of the month
+    const monthDays = getMonthDays();
+    const monthFirstDay = getMonthFirstDay();
+
+    //blank boxes for empty days
+    let blanks = [];
+    for (let i = 0; i < monthFirstDay; i++) {
+      blanks.push(
+        <td className = "calendar-day empty">{""}</td>
+      )
+    }
+    //the days in the month chosen
+    let daysInMonth = [];
+    for (let d = 1; d <= monthDays; d++) {
+
+      daysInMonth.push (
+        <TableCells key = {d} className = {"calendar-day  "}>
+          <TableCellButton>
+            {d}
+          </TableCellButton>
+        </TableCells>
+      );
+    }
+
+    //calendar structure
+    let totalSlots = [...blanks, ...daysInMonth]
+    let rows = [];
+    let cells = [];
+    totalSlots.forEach((row, i) => {
+      if (i % 7 !== 0) {
+        cells.push(row);
+      } else {
+        rows.push(cells);
+        cells = [];
+        cells.push(row)
+      }
+      if (i === totalSlots.length - 1) {
+        rows.push(cells);
+        cells = [];
+      }
+    })
+    //deletes empty rows
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i].length === 0) {
+        rows.splice(i, 1)
+      }
+    }
+    //wrapping rows in td
+    let daysinmonth = rows.map((d, i) => {
+      return <tr>{d}</tr>
+    })
+    return daysinmonth;
   }
 
   changeMonthYear (leftRight) {
@@ -116,13 +257,13 @@ class Calendar extends React.Component {
   }
 
   render () {
-
+    const weekName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
     return this.props.show === false ? null :
     (
       <Modal>
         <ButtonWords>
-          <LeftRight onClick = {()=> this.changeMonthYear("left")}>
+          <LeftRight onClick = {() => this.changeMonthYear("left")}>
             Left
           </LeftRight>
           <DisplayWords>
@@ -133,20 +274,12 @@ class Calendar extends React.Component {
           </LeftRight>
         </ButtonWords>
         <WeekWords>
-          <WeekWord>Su</WeekWord>
-          <WeekWord>Mo</WeekWord>
-          <WeekWord>Tu</WeekWord>
-          <WeekWord>We</WeekWord>
-          <WeekWord>Th</WeekWord>
-          <WeekWord>Fr</WeekWord>
-          <WeekWord>Sa</WeekWord>
+          {weekName.map(name =><WeekWord>{name}</WeekWord>)}
         </WeekWords>
         <TableDates>
-          <CalendarRow/>
-          <CalendarRow/>
-          <CalendarRow/>
-          <CalendarRow/>
-          <CalendarRow/>
+          <tbody>
+          {this.renderDay()}
+          </tbody>
         </TableDates>
       </Modal>
     )

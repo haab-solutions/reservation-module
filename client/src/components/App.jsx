@@ -19,6 +19,7 @@ class App extends React.Component {
       serviceFee: null,
       occupancyFee: null,
       daysMinimum: null,
+      reservations: null,
 //choices made in app
       adultsChosen: 1,
       childrenChosen: 0,
@@ -33,6 +34,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getListingdata()
+    this.getReservations()
   }
 
   getListingdata () {
@@ -49,6 +51,17 @@ class App extends React.Component {
           serviceFee: result.serviceFee,
           occupancyFee: result.occupancyFee,
           daysMinimum: result.daysMinimum,
+        })
+      },
+    });
+  }
+
+  getReservations () {
+    $.ajax({
+      url: 'http://localhost:3000/api/reservations/1',
+      success: (result) => {
+        this.setState({
+          reservations: result,
         })
       },
     });
@@ -88,10 +101,14 @@ class App extends React.Component {
     this.setState(object)
   }
 
+
+
   render () {
     return (
       <div>
-        <OuterComponent state = {this.state} onAdd = {this.onAddGuest.bind(this)} onSub = {this.onSubGuest.bind(this)}/>
+        <OuterComponent state = {this.state} onAdd = {this.onAddGuest.bind(this)} onSub = {this.onSubGuest.bind(this)}
+
+        />
         <ReportListing/>
       </div>
     )
