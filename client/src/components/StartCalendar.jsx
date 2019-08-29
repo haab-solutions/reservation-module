@@ -79,13 +79,16 @@ const TableCells = styled.td`
   text-align: center;
   &:hover {
     cursor: pointer;
+    background-color:  #D3D3D3;
   }
 `;
 
 const TableCellGray = styled.td`
-border: 1px solid #D3D3D3;
+  border: 1px solid #D3D3D3;
   justify-content: center;
   text-align: center;
+  text-decoration: line-through;
+  color: #D3D3D3;
 `;
 
 const TableCellButton = styled.button`
@@ -100,6 +103,7 @@ const TableCellButton = styled.button`
   }
   &:hover {
     cursor: pointer;
+    background-color:  #D3D3D3;
   }
 `;
 
@@ -114,6 +118,7 @@ class Calendar extends React.Component {
       nextMonth: null,
       lastYear: null,
       nextYear: null,
+      reservationDates: [],
     }
   }
   componentDidMount() {
@@ -142,18 +147,44 @@ class Calendar extends React.Component {
   }
 
   renderDay() {
-    //reservation dates prepared
-    const reservationDates = [];
-    for (var reservation of this.props.state.reservations) {
-
-      var startMonth = new Date(reservation.startDate).getMonth()
-      var startDay = new Date(reservation.startDate).getDate()
-      var endMonth = new Date(reservation.endDate).getMonth()
-      var endDay = new Date(reservation.endDate).getDate()
-      var daysInBetween = [];
-      reservationDates.push({startMonth: startMonth, startDay: startDay, endMonth: endMonth, endDay: endDay,})
+    //reservation dates prepared and put in state
+    if (this.state.reservationDates.length === 0) {
+      const reservationDates = [];
+      for (var reservation of this.props.state.reservations) {
+        var startMonth = new Date(reservation.startDate).getMonth()
+        var startDay = new Date(reservation.startDate).getDate()
+        var endMonth = new Date(reservation.endDate).getMonth()
+        var endDay = new Date(reservation.endDate).getDate()
+        reservationDates.push({startMonth: startMonth, startDay: startDay, endMonth: endMonth, endDay: endDay,})
+      }
+      this.setState({
+        reservationDates: reservationDates,
+      })
     }
 
+    //reservation dates in a 3-month period you're in
+    const reservationsInMonth = [];
+    for (var reservation of this.state.reservationDates) {
+      if (reservation.startMonth === this.state.month || reservation.startMonth === this.state.lastMonth|| reservation.startMonth === this.state.nextMonth) {
+        reservationsInMonth.push(reservation)
+      }
+    }
+
+    //all dates between reservation dates
+    const reservationDatesInMonth =[];
+    for (var reservation of reservationsInMonth) {
+      var counter = 0;
+      var date1 = new Date (this.state.year, reservation.startMonth, reservation.startDay)
+      var date2 = new Date (this.state.year, reservation.endMonth, reservation.endDay)
+      var onDate = new Date(date1);
+      var max = (date2.getTime() - date1.getTime())/(1000*3600*24)
+      while (counter <=max) {
+        let date = {month: onDate.getMonth(), day: onDate.getDate()};
+        reservationDatesInMonth.push(date)
+        onDate.setDate(onDate.getDate() + 1)
+        counter++
+      }
+    }
     //for padding number with 0
     const zeroPad = (value, length) => {
       return `${value}`.padStart(length, '0');
@@ -188,16 +219,22 @@ class Calendar extends React.Component {
     //the days in the month chosen
     let daysInMonth = [];
     for (let d = 1; d <= monthDays; d++) {
-
       daysInMonth.push (
-        <TableCells key = {d} className = {"calendar-day  "}>
+        <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("startDate",d, this.state.month, this.state.year)}}>
           <TableCellButton>
             {d}
           </TableCellButton>
         </TableCells>
       );
     }
-
+    //grayed out cells
+    for (var reservation of reservationDatesInMonth) {
+      for (let i = 0; i < daysInMonth.length; i++) {
+        if (daysInMonth[i].key === `${reservation.day}` && this.state.month === reservation.month) {
+          daysInMonth.splice(i,1,<TableCellGray key = {reservation.day} className = {"calendar-day gray"}>{reservation.day}</TableCellGray>)
+        }
+      }
+    }
     //calendar structure
     let totalSlots = [...blanks, ...daysInMonth]
     let rows = [];
@@ -229,36 +266,73 @@ class Calendar extends React.Component {
   }
 
   changeMonthYear (leftRight) {
+    //for left
     if (leftRight === "left") {
       if (this.state.month === 0) {
         this.setState({
           year: this.state.year - 1,
-          month: 11
+          month: 11,
+          lastMonth: 10,
+          nextMonth: 0,
+        })
+        return;
+      } else if (this.state.month === 1) {
+        this.setState({
+          month: 0,
+          lastMonth: 11,
+          nextMonth: 1,
+        })
+        return;
+      } else if (this.state.month === 11) {
+        this.setState({
+          month: 10,
+          lastMonth: 9,
+          nextMonth: 11,
         })
         return;
       }
       this.setState({
-        month: this.state.month - 1
+        month: this.state.month - 1,
+        lastMonth: this.state.lastMonth - 1,
+        nextMonth: this.state.nextMonth - 1
       })
-      this.renderMonthYear();
+    //for right
     } else {
       if (this.state.month === 11) {
         this.setState({
           year: this.state.year + 1,
-          month: 0
+          month: 0,
+          lastMonth: 11,
+          nextMonth: 1,
+        })
+        return;
+      } else if (this.state.month === 10) {
+        this.setState({
+          month: 11,
+          lastMonth: 10,
+          nextMonth: 0,
+        })
+        return;
+      } else if (this.state.month === 0) {
+        this.setState({
+          month: 1,
+          lastMonth: 0,
+          nextMonth: 2,
         })
         return;
       }
       this.setState({
-        month: this.state.month + 1
+        month: this.state.month + 1,
+        lastMonth: this.state.lastMonth + 1,
+        nextMonth: this.state.nextMonth + 1,
       })
-      this.renderMonthYear();
     }
+    this.renderMonthYear();
   }
+
 
   render () {
     const weekName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
     return this.props.show === false ? null :
     (
       <Modal>
@@ -269,7 +343,7 @@ class Calendar extends React.Component {
           <DisplayWords>
             {this.renderMonthYear()}
           </DisplayWords>
-          <LeftRight onClick = {()=> this.changeMonthYear("right")}>
+          <LeftRight onClick = {() => this.changeMonthYear("right")}>
             Right
           </LeftRight>
         </ButtonWords>

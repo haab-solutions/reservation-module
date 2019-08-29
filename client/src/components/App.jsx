@@ -24,7 +24,6 @@ class App extends React.Component {
       adultsChosen: 1,
       childrenChosen: 0,
       infantsChosen: 0,
-      daysChosen: null,
       startDate: null,
       endDate: null,
     }
@@ -101,13 +100,27 @@ class App extends React.Component {
     this.setState(object)
   }
 
+  onSelectDate(startEnd, day, month, year) {
+    var Obj = {}
+    Obj[startEnd] = {};
+    Obj[startEnd].day = day;
+    Obj[startEnd].month = month;
+    Obj[startEnd].year = year;
+    this.setState(Obj)
+  }
 
+  onClearDates() {
+    this.setState({
+      startDate: null,
+      endDate: null,
+    })
+  }
 
   render () {
     return (
       <div>
         <OuterComponent state = {this.state} onAdd = {this.onAddGuest.bind(this)} onSub = {this.onSubGuest.bind(this)}
-
+          onSelect = {this.onSelectDate.bind(this)} onClear = {this.onClearDates.bind(this)}
         />
         <ReportListing/>
       </div>

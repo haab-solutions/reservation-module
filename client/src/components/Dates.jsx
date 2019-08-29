@@ -82,8 +82,10 @@ class Dates extends React.Component {
     return (
       <DatesOuter>
         <DatesWord>Dates</DatesWord>
-        <StartCalendar show = {this.state.start} onShow = {this.onShow.bind(this)} state = {this.props.state}/>
-        <EndCalendar show = {this.state.end} onShow = {this.onShow.bind(this)} state = {this.props.state}/>
+        <StartCalendar show = {this.state.start} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"startCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear}
+        />
+        <EndCalendar show = {this.state.end} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"endCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear}
+        />
         <DatesBox>
           <StyledCheck onClick = {()=> this.onShow("start")}>
             <CalendarWords>Check-in</CalendarWords>
