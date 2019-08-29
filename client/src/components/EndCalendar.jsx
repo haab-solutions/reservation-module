@@ -230,14 +230,28 @@ class Calendar extends React.Component {
       );
     }
     //grayed out cells
-    for (var reservation of reservationDatesInMonth) {
+    for (let j = 0; j < reservationDatesInMonth.length; j++) {
+      var reservation = reservationDatesInMonth[j];
       for (let i = 0; i < daysInMonth.length; i++) {
+        var blackout = [];
+        if (this.state.startDate !== null) {
+          var blackout = new Date(this.state.year, this.state.month, i)
+          var startDate = new Date (this.state.startDate)
+          var blackDate = {year: blackout.getFullYear(), month: blackout.getMonth(), day: i}
+          console.log(this.state.startDate, "startdate")
+        }
         if (daysInMonth[i].key === `${reservation.day}` && this.state.month === reservation.month) {
-          daysInMonth.splice(i,1,<TableCellGray key = {reservation.day} className = {"calendar-day gray"}>{reservation.day}</TableCellGray>)
-          this.setState
+          daysInMonth.splice(i, 1, <TableCellGray key = {reservation.day} className = {"calendar-day gray"}>{reservation.day}</TableCellGray>)
+          if (blackout.length !== 0 && this.state.startDate !== null && blackout > startDate) {
+            this.setState({
+              blackDate: blackDate,
+            })
+            return;
+          }
         }
       }
     }
+    console.log(this.state.blackDate, "this is the blackdate")
     //calendar structure
     let totalSlots = [...blanks, ...daysInMonth]
     let rows = [];
@@ -340,7 +354,7 @@ class Calendar extends React.Component {
       this.setState({
         year: newYear,
         month: newMonth,
-        startDate: new Date (this.props.state.startDate.year, this.props.state.startDate.month),
+        startDate: new Date (this.props.state.startDate.year, this.props.state.startDate.month, this.props.state.startDate.day),
       })
     }
   }
@@ -349,6 +363,7 @@ class Calendar extends React.Component {
     //changes state of year and month to start date if exists
     if (this.props.state.startDate !== null &&this.props.show === false) {
       this.rerenderMonthYear();
+      this.renderDay();
     }
     const weekName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
     return this.props.show === false ? null :
