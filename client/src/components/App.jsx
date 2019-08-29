@@ -116,6 +116,14 @@ class App extends React.Component {
     })
   }
 
+  closeModal() {
+    window.onclick = function() {
+      this.setState({
+        start: false,
+        end: false,
+      })
+    }
+  }
   render () {
     return (
       <div>

@@ -68,12 +68,19 @@ const WeekWord = styled.div`
 
 const TableDates = styled.table`
   width: 100%;
-  height: 70%;
+  height: 60%;
   border-collapse: collapse;
   display: table;
 `;
 
+const TableCellRows = styled.tr`
+width: 40px;
+height: 40px;
+`;
+
 const TableCells = styled.td`
+  width: 40px;
+  height: 40px;
   border: 1px solid #D3D3D3;
   justify-content: center;
   text-align: center;
@@ -100,11 +107,33 @@ const TableCellButton = styled.button`
   border: none;
   &:focus {
     outline: 0;
-  }
+  };
   &:hover {
     cursor: pointer;
     background-color:  #D3D3D3;
-  }
+  };
+`;
+
+const CloseButton = styled.div`
+padding-top: 30px;
+display: flex;
+justify-content: flex-end;
+`;
+
+const CloseButtonWords = styled.button`
+color: #1c828c;
+font-family:Roboto,Helvetica Neue,sans-serif;
+font-size: 14px;
+font-weight: bold;
+&:hover {
+  cursor: pointer;
+  text-decoration: underline;
+};
+&:focus {
+  outline: 0;
+};
+background-color: white;
+border: none;
 `;
 
 
@@ -220,7 +249,7 @@ class Calendar extends React.Component {
     let daysInMonth = [];
     for (let d = 1; d <= monthDays; d++) {
       daysInMonth.push (
-        <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("startDate",d, this.state.month, this.state.year)}}>
+        <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("startDate",d, this.state.month, this.state.year); this.props.onSwitch("start")}}>
           <TableCellButton>
             {d}
           </TableCellButton>
@@ -260,7 +289,7 @@ class Calendar extends React.Component {
     }
     //wrapping rows in td
     let daysinmonth = rows.map((d, i) => {
-      return <tr>{d}</tr>
+      return <TableCellRows>{d}</TableCellRows>
     })
     return daysinmonth;
   }
@@ -351,10 +380,13 @@ class Calendar extends React.Component {
           {weekName.map(name =><WeekWord>{name}</WeekWord>)}
         </WeekWords>
         <TableDates>
-          <tbody>
           {this.renderDay()}
-          </tbody>
         </TableDates>
+        <CloseButton>
+          <CloseButtonWords onClick = {() => this.props.onClear()}>
+            Clear Dates
+          </CloseButtonWords>
+        </CloseButton>
       </Modal>
     )
   }

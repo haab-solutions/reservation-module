@@ -23,8 +23,17 @@ const DatesBox = styled.div`
   border-style: solid;
   border-width: 1px;
   display: flex;
+  align-items: baseline;
 `;
+const ArrowHolder = styled.div`
+width: 20%
+margin-left: 20px;
+margin-right: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
 
+`;
 const ArrowRight = styled.div`
   width: 4px;
   height: 4px;
@@ -39,9 +48,14 @@ const ArrowRight = styled.div`
 
 
 const StyledCheck = styled.button`
-  width: 50%;
+  width: 60%;
   background: white;
   border: none;
+  &:focus {
+    background: #1c828c;
+    border: 1px solid #1c828c;
+    border-radius: 3px;
+  }
 `;
 
 const CalendarWords = styled.div`
@@ -57,7 +71,27 @@ class Dates extends React.Component {
       start: false,
       end: false,
     }
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({
+        start:false,
+        end:false,
+      })
+    }
+  }
+
 
   onShow (string) {
     if (string === "start") {
@@ -78,21 +112,71 @@ class Dates extends React.Component {
     this.setState(obj)
   }
 
+  onSwitch(string) {
+    if (string === "start") {
+      var makeAsync =()=> {
+        return Promise.resolve(
+          console.log("ok")
+        )
+      }
+      makeAsync().then((result) => {
+        document.getElementById("checkOutButton").click()
+        document.getElementById("checkOutButton").focus()
+      })
+    } else if (this.props.state.startDate !== null && string === "end") {
+      this.setState({
+        start: false,
+        end: false,
+      })
+    } else {
+      this.setState({
+        start:true,
+        end: false,
+      })
+    }
+  }
+  checkInDate(date) {
+    const zeroPad = (value, length) => {
+      return `${value}`.padStart(length, '0');
+    }
+    if (this.props.state.startDate === null) {
+      return <CalendarWords id = "checkIn">Check-in</CalendarWords>
+    }
+    return <CalendarWords id = "checkIn">
+    {zeroPad(this.props.state.startDate.month, 2)}/{zeroPad(this.props.state.startDate.day, 2)}/{this.props.state.startDate.year}
+    </CalendarWords>
+  }
+
+  checkOutDate(date) {
+    const zeroPad = (value, length) => {
+      return `${value}`.padStart(length, '0');
+    }
+    if (this.props.state.endDate === null) {
+      return <CalendarWords id = "checkOut">Checkout</CalendarWords>
+    }
+    return <CalendarWords id = "checkOut">
+    {zeroPad(this.props.state.endDate.month, 2)}/{zeroPad(this.props.state.endDate.day, 2)}/{this.props.state.endDate.year}
+    </CalendarWords>
+  }
+
+
   render () {
     return (
-      <DatesOuter>
+      <DatesOuter ref = {this.setWrapperRef}>
         <DatesWord>Dates</DatesWord>
-        <StartCalendar show = {this.state.start} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"startCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear}
+        <StartCalendar show = {this.state.start} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"startCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear} onSwitch = {this.onSwitch.bind(this)}
         />
-        <EndCalendar show = {this.state.end} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"endCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear}
+        <EndCalendar show = {this.state.end} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"endCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear} onSwitch = {this.onSwitch.bind(this)}
         />
         <DatesBox>
           <StyledCheck onClick = {()=> this.onShow("start")}>
-            <CalendarWords>Check-in</CalendarWords>
+            {this.checkInDate()}
           </StyledCheck>
-          <ArrowRight></ArrowRight>
-          <StyledCheck onClick = {()=> this.onShow("end")}>
-            <CalendarWords>Checkout</CalendarWords>
+          <ArrowHolder>
+            <ArrowRight></ArrowRight>
+          </ArrowHolder>
+          <StyledCheck  id = "checkOutButton" onClick = {()=> this.onShow("end")}>
+            {this.checkOutDate()}
           </StyledCheck>
         </DatesBox>
       </DatesOuter>

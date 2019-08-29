@@ -68,12 +68,20 @@ const WeekWord = styled.div`
 
 const TableDates = styled.table`
   width: 100%;
-  height: 70%;
+  height: 60%;
   border-collapse: collapse;
   display: table;
+  padding-bottom: 20px;
+`;
+
+const TableCellRows = styled.tr`
+width: 40px;
+height: 40px;
 `;
 
 const TableCells = styled.td`
+  width: 40px;
+  height: 40px;
   border: 1px solid #D3D3D3;
   justify-content: center;
   text-align: center;
@@ -83,12 +91,37 @@ const TableCells = styled.td`
   }
 `;
 
+const TableCellsHover = styled.td`
+  width: 40px;
+  height: 40px;
+  border: 1px solid #D3D3D3;
+  justify-content: center;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+    background-color: 1c828c;
+    color: white;
+`;
+
 const TableCellGray = styled.td`
+  width: 40px;
+  height: 40px;
   border: 1px solid #D3D3D3;
   justify-content: center;
   text-align: center;
   text-decoration: line-through;
   color: #D3D3D3;
+`;
+
+const TableCellStart = styled.td`
+  width: 40px;
+  height: 40px;
+  border: 1px solid #D3D3D3;
+  justify-content: center;
+  text-align: center;
+  background-color: 1c828c;
+  color: white;
+
 `;
 
 const TableCellButton = styled.button`
@@ -100,13 +133,51 @@ const TableCellButton = styled.button`
   border: none;
   &:focus {
     outline: 0;
-  }
+  };
   &:hover {
     cursor: pointer;
     background-color:  #D3D3D3;
-  }
+  };
 `;
 
+const TableCellButtonHover = styled.button`
+  width:100%;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  background: white;
+  border: none;
+  &:focus {
+    outline: 0;
+  };
+  &:hover {
+    cursor: pointer;
+    background-color: #1c828c;
+    color: white;
+  };
+`;
+
+const CloseButton = styled.div`
+  padding-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CloseButtonWords = styled.button`
+  color: #1c828c;
+  font-family:Roboto,Helvetica Neue,sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  };
+  &:focus {
+    outline: 0;
+  };
+  background-color: white;
+  border: none;
+  `;
 
 class Calendar extends React.Component {
   constructor (props) {
@@ -123,6 +194,7 @@ class Calendar extends React.Component {
       blackDate: null,
       startDate: null,
     }
+    this.myRef = React.createRef();
   }
 
   componentDidMount() {
@@ -221,23 +293,45 @@ class Calendar extends React.Component {
     }
     //the days in the month chosen- if blackout date then fills in appropriate blackout days
     let daysInMonth = [];
-    var startDate = new Date (this.props.state.startDate.year, this.props.state.startDate.month, this.props.state.startDate.day)
-    for (let d = 1; d <= monthDays; d++) {
-      var blackout = null;
+    //if there's a start date, then make a start date variable
+    if (this.props.state.startDate !== null) {
+      var startDate = new Date (this.props.state.startDate.year, this.props.state.startDate.month, this.props.state.startDate.day)
+    }
+    //if there's a blackout date, then make a blackout date variable
+    if (this.state.blackDate !== null) {
       var blackDate = null;
+      var blackout = null;
+      blackout = this.state.blackDate
+      blackDate = new Date(blackout.year, blackout.month, blackout.day)
+    }
+    for (let d = 1; d <= monthDays; d++) {
       var date = new Date(this.state.year, this.state.month, d)
-      if (this.state.blackDate !== null) {
-        blackout = this.state.blackDate
-        blackDate = new Date(blackout.year, blackout.month, blackout.day)
-      }
+      //for crossing out dates if black date is selected
       if ((blackDate !== null && date > blackDate ) || date < startDate) {
         daysInMonth.push(
           <TableCellGray key = {d} className = {"calendar-day gray"}>{d}</TableCellGray>
         )
         continue;
+      //if there's a start date, then make it green
+      } else if (this.props.state.startDate !== null && startDate.getDate() === d && startDate.getMonth() === this.state.month) {
+        daysInMonth.push(
+          <TableCellStart key = {d} className = {"calendar-day start"}>{d}</TableCellStart>
+        )
+        continue;
+      }
+      //adding the hover function if it's passed the start date
+      if (startDate !== null && date > startDate) {
+        daysInMonth.push(
+          <TableCellsHover  id = {`calendar_${d}`}  ref = {d} key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("endDate",d, this.state.month, this.state.year); this.props.onSwitch("end")}}>
+          <TableCellButtonHover>
+            {d}
+          </TableCellButtonHover>
+        </TableCellsHover>
+        )
+        continue;
       }
       daysInMonth.push (
-        <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("endDate",d, this.state.month, this.state.year)}}>
+        <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("endDate",d, this.state.month, this.state.year); this.props.onSwitch("end")}}>
           <TableCellButton>
             {d}
           </TableCellButton>
@@ -247,15 +341,17 @@ class Calendar extends React.Component {
     //grayed out cells
     for (let j = 0; j < reservationDatesInMonth.length; j++) {
       let reservation = reservationDatesInMonth[j];
+      let startDate = null;
+      let blackout = null;
+      let blackDate = null;
       for (let i = 0; i < daysInMonth.length; i++) {
-        let blackout= null;
-        let startDate = null;
-        let blackDate = null;
         if (daysInMonth[i].key === `${reservation.day}` && this.state.month === reservation.month) {
-          startDate = new Date (this.props.state.startDate.year, this.props.state.startDate.month, this.props.state.startDate.day)
-          blackout = new Date(this.state.year, this.state.month, i)
-          blackDate = {year: blackout.getFullYear(), month: blackout.getMonth(), day: i + 1}
           daysInMonth.splice(i, 1, <TableCellGray key = {reservation.day} className = {"calendar-day gray"}>{reservation.day}</TableCellGray>)
+          if (this.props.state.startDate !== null) {
+            startDate = new Date (this.props.state.startDate.year, this.props.state.startDate.month, this.props.state.startDate.day)
+            blackout = new Date(this.state.year, this.state.month, i)
+            blackDate = {year: blackout.getFullYear(), month: blackout.getMonth(), day: i + 1}
+          }
           if (this.state.blackDate === null && startDate !== null && blackout > startDate) {
             this.setState({
               blackDate: blackDate,
@@ -290,7 +386,7 @@ class Calendar extends React.Component {
     }
     //wrapping rows in td
     let daysinmonth = rows.map((d, i) => {
-      return <tr>{d}</tr>
+      return <TableCellRows>{d}</TableCellRows>
     })
     // this.setState({
     //   daysinmonth: daysinmonth,
@@ -300,6 +396,7 @@ class Calendar extends React.Component {
 
   changeMonthYear (leftRight) {
     //for left
+    document.getElementById("checkOutButton").focus()
     if (leftRight === "left") {
       if (this.state.month === 0) {
         this.setState({
@@ -366,7 +463,7 @@ class Calendar extends React.Component {
   rerenderMonthYear() {
     const newYear = new Date (this.props.state.startDate.year, this.props.state.startDate.month).getFullYear()
     const newMonth = new Date (this.props.state.startDate.year, this.props.state.startDate.month).getMonth()
-    if (this.state.month !== newMonth || this.state.year !== newYear) {
+    if ((this.state.month !== newMonth || this.state.year !== newYear) && this.props.show === false) {
       this.setState({
         year: newYear,
         month: newMonth,
@@ -383,7 +480,7 @@ class Calendar extends React.Component {
       })
       return;
     }
-    if (stateDate.day !== propDate.day || stateDate.month !== propDate.month || stateDate.year !== propDate.year) {
+    if ((stateDate.day !== propDate.day || stateDate.month !== propDate.month || stateDate.year !== propDate.year || propDate === null) && this.props.state.show === false) {
       this.setState({
         startDate: propDate,
         blackDate: null,
@@ -391,9 +488,16 @@ class Calendar extends React.Component {
     }
   }
 
+  onReset() {
+    this.setState({
+      startDate: null,
+      blackDate: null,
+    })
+  }
+
   render () {
     //changes state of year and month to start date if exists
-    if (this.props.state.startDate !== null &&this.props.show === false) {
+    if (this.props.state.startDate !== null) {
       this.rerenderMonthYear();
       this.renderDay();
       this.blackoutNull()
@@ -421,10 +525,13 @@ class Calendar extends React.Component {
           {weekName.map(name =><WeekWord>{name}</WeekWord>)}
         </WeekWords>
         <TableDates>
-          <tbody>
-          {this.renderDay()}
-          </tbody>
+            {this.renderDay()}
         </TableDates>
+        <CloseButton>
+          <CloseButtonWords onClick = {() => {this.props.onClear(); this.onReset(); this.props.onSwitch()}}>
+            Clear Dates
+          </CloseButtonWords>
+        </CloseButton>
       </Modal>
     )
   }
