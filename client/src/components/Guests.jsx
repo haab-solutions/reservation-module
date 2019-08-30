@@ -119,7 +119,7 @@ class Guests extends React.Component {
             {this.renderArrow()}
           </GuestsButton>
         </GuestsBox>
-        <GuestsModal show = {this.state.show} showGuestsModal = {this.showGuestsModal} state = {this.props.state}
+        <GuestsModal id = {"guestsModal"} show = {this.state.show} showGuestsModal = {this.showGuestsModal} state = {this.props.state}
         onAdd = {this.props.onAdd} onSub = {this.props.onSub}
         ></GuestsModal>
       </div>

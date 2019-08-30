@@ -49,8 +49,8 @@ function Reviews (props) {
   return (
     <StyledDiv>
       <Stars>
-        {starsFull.map(star => <StarFull>{star}</StarFull>)}
-        {starsHalf.map(star => <StarHalf>{star}</StarHalf>)}
+        {starsFull.map((star, i) => <StarFull key = {i}>{star}</StarFull>)}
+        {starsHalf.map((star, i) => <StarHalf key = {i}>{star}</StarHalf>)}
       </Stars>
      {props.ratingAmount}
     </StyledDiv>

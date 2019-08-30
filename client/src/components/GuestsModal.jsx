@@ -43,12 +43,14 @@ const TextBig = styled.div`
   font-weight: bold;
   padding-top: 18px;
 `;
+TextBig.displayName = 'TextBig'
 
 
 const TextSmall = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 14px;
 `;
+TextSmall.displayName = 'TextSmall'
 
 const ButtonsBox = styled.div`
   width: 120px;
@@ -61,6 +63,7 @@ const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+ButtonsWrapper.displayName = "ButtonsWrapper"
 
 const Button = styled.button`
   border-radius: 100%;
@@ -79,6 +82,7 @@ const Button = styled.button`
     box-shadow :  0 0 0 5px white, 0 0 0 6px #808080;
   }
 `;
+Button.displayName = "Button"
 
 const GrayButton = styled.button`
   border-radius: 100%;
@@ -126,32 +130,31 @@ const CloseButton = styled.button`
       text-decoration: underline;
     }
 `;
-
-
+CloseButton.displayName = "CloseButton"
 
 function GuestsModal (props) {
   if (props.show === false) {
     return null;
   }
   const changeButton = (name, type) => {
-
     if (name === "adultsChosen" || name === "childrenChosen") {
       //for adults and children changing the type
+      //for subtraction for adults and children buttons
       if (type === "-") {
         if (name === "adultsChosen") {
-          return props.state[name] === 1 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+          return props.state[name] === 1 ? <GrayButton id ={"adultsChosen-"}>{type}</GrayButton> : <Button id = {"adultsChosenminus"}onClick = {() =>props.onSub(name)} >{type}</Button>
         }
-        return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+        return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button  id = {`childrenChosenminus`} onClick = {() =>props.onSub(name)}>{type}</Button>
       }
       //for addition for adults and children buttons
       return  props.state.adultsChosen + props.state.childrenChosen === props.state.guestsAllowed ?
-      <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onAdd(name)}>{type}</Button>
+       <GrayButton id = {`${name}Grayadd`}>{type}</GrayButton> : <Button  id = {`${name}plus`} onClick = {() =>props.onAdd(name)}>{type}</Button>
     }
     //for the infants plus and minus
     if (type === "-") {
-      return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() =>props.onSub(name)}>{type}</Button>
+      return props.state[name] === 0 ? <GrayButton>{type}</GrayButton> : <Button id = "infantsChosenminus" onClick = {() =>props.onSub(name)}>{type}</Button>
     }
-    return props.state[name] === props.state.guestsInfants ? <GrayButton>{type}</GrayButton> : <Button  onClick = {() => props.onAdd(name)}>{type}</Button>
+    return props.state[name] === props.state.guestsInfants ? <GrayButton>{type}</GrayButton> : <Button id = "infantsChosenplus" onClick = {() => props.onAdd(name)}>{type}</Button>
   }
 
   return (
@@ -183,22 +186,22 @@ function GuestsModal (props) {
         <ButtonsBox>
           <ButtonsWrapper>
             {changeButton("adultsChosen", "-" )}
-            <Number>{props.state.adultsChosen}</Number>
+            <Number id ="adultsNumber">{props.state.adultsChosen}</Number>
             {changeButton("adultsChosen", "+" )}
           </ButtonsWrapper>
           <ButtonsWrapper>
             {changeButton("childrenChosen", "-" )}
-            <Number>{props.state.childrenChosen}</Number>
+            <Number id = {"childrensNumber"}>{props.state.childrenChosen}</Number>
             {changeButton("childrenChosen", "+" )}
           </ButtonsWrapper>
           <ButtonsWrapper>
             {changeButton("infantsChosen", "-" )}
-            <Number>{props.state.infantsChosen}</Number>
+            <Number id = {"infantsNumber"}>{props.state.infantsChosen}</Number>
             {changeButton("infantsChosen", "+" )}
           </ButtonsWrapper>
         </ButtonsBox>
       </FunctionalComp>
-      <TextSmall>
+      <TextSmall id = "guestsMaximumInModal">
         {props.state.guestsAllowed} Guests maximum. infants don't count toward the number of guests.
       </TextSmall>
       <CloseButtonWrapper>
