@@ -49,13 +49,10 @@ const ArrowRight = styled.div`
 
 const StyledCheck = styled.button`
   width: 60%;
-  background: white;
-  border: none;
-  &:focus {
-    background: #1c828c;
-    border: 1px solid #1c828c;
-    border-radius: 3px;
-  }
+  outline: 0;
+  background: ${props => props.start || props.end ? "#1c828c":" white"}
+  border: ${props => props.start  || props.end ? "1px solid #1c828c" : "none"}
+  border-radius: 3px;
 `;
 
 const CalendarWords = styled.div`
@@ -116,7 +113,6 @@ class Dates extends React.Component {
     if (string === "start") {
       var makeAsync =()=> {
         return Promise.resolve(
-          console.log("ok")
         )
       }
       makeAsync().then((result) => {
@@ -169,13 +165,13 @@ class Dates extends React.Component {
         <EndCalendar show = {this.state.end} onShow = {this.onShow.bind(this)} state = {this.props.state} key = {"endCalendar"} onSelect = {this.props.onSelect} onClear = {this.props.onClear} onSwitch = {this.onSwitch.bind(this)}
         />
         <DatesBox>
-          <StyledCheck onClick = {()=> this.onShow("start")}>
+          <StyledCheck onClick = {()=> this.onShow("start")} start = {this.state.start}>
             {this.checkInDate()}
           </StyledCheck>
           <ArrowHolder>
             <ArrowRight></ArrowRight>
           </ArrowHolder>
-          <StyledCheck  id = "checkOutButton" onClick = {()=> this.onShow("end")}>
+          <StyledCheck  id = "checkOutButton" onClick = {()=> this.onShow("end")} end = {this.state.end}>
             {this.checkOutDate()}
           </StyledCheck>
         </DatesBox>

@@ -16,16 +16,19 @@ height: 40px;
 display: flex;
 flex-direction: row;
 justify-content: space-between;
+font-weight: ${props=> props.primary? "bold" : "normal"}
 `
 
 const ContainerWords = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 14px;
+  font-weight: ${props=> props.primary? "bold" : "normal"}
 `;
 
 const ContainerNum = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 14px;
+  font-weight: ${props=> props.primary? "bold" : "normal"}
 `
 function Totals (props) {
   if (props.state.startDate === null || props.state.endDate === null) {
@@ -59,8 +62,8 @@ function Totals (props) {
       </Container>
       <FadedLine></FadedLine>
       <Container>
-        <ContainerWords>Total</ContainerWords>
-        <ContainerNum>${total}</ContainerNum>
+        <ContainerWords primary>Total</ContainerWords>
+        <ContainerNum primary>${total}</ContainerNum>
       </Container>
     </TotalsOutside>
   )

@@ -40,6 +40,9 @@ const GuestsWords = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 17px;
   color: #404040;
+  background: ${props => props.show ? "#1c828c":" white"}
+  border: ${props => props.show ? "1px solid #1c828c" : "none"}
+  border-radius: 3px;
 `;
 
 const ArrowDown = styled.i`
@@ -113,7 +116,7 @@ class Guests extends React.Component {
         <GuestsWord>Guests</GuestsWord>
         <GuestsBox onClick = {() => this.showGuestsModal(this.state.show)}>
           <GuestsButton>
-            <GuestsWords>
+            <GuestsWords show = {this.state.show}>
               {numGuests} {word} {infantWord}
             </GuestsWords>
             {this.renderArrow()}
