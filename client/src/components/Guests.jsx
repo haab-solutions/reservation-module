@@ -40,8 +40,8 @@ const GuestsWords = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 17px;
   color: #404040;
-  background: ${props => props.show ? "#1c828c":" white"}
-  border: ${props => props.show ? "1px solid #1c828c" : "none"}
+  background: ${props => props.show ? "#80fff5":" white"}
+  border: ${props => props.show ? "1px solid #80fff5" : "none"}
   border-radius: 3px;
 `;
 

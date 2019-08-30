@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import StartCalendar from './StartCalendar.jsx'
 import EndCalendar from './EndCalendar.jsx'
+
 const DatesWord = styled.div`
   font-family:Roboto,Helvetica Neue,sans-serif;
   font-size: 12px;
@@ -11,6 +12,7 @@ const DatesWord = styled.div`
 `;
 const DatesOuter = styled.div`
   padding-bottom: 13px;
+  position: relative;
 `;
 
 const DatesBox = styled.div`
@@ -50,8 +52,8 @@ const ArrowRight = styled.div`
 const StyledCheck = styled.button`
   width: 60%;
   outline: 0;
-  background: ${props => props.start || props.end ? "#1c828c":" white"}
-  border: ${props => props.start  || props.end ? "1px solid #1c828c" : "none"}
+  background: ${props => props.start || props.end ? "#80fff5":" white"}
+  border: ${props => props.start  || props.end ? "1px solid #80fff5" : "none"}
   border-radius: 3px;
 `;
 

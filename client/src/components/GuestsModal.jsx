@@ -5,7 +5,7 @@ const Modal = styled.div`
   z-index:1;
   background: white;
   border: 1px solid #D3D3D3;
-  border-top: 2px solid #1c828c;
+  border-top: 2px solid #00a699;
   border-radius: 4px;
   box-shadow: 0px 4px 15px 1px #C8C8C8;
   visibility: visible;
@@ -67,12 +67,12 @@ ButtonsWrapper.displayName = "ButtonsWrapper"
 
 const Button = styled.button`
   border-radius: 100%;
-  border: 1px solid #1c828c;
+  border: 1px solid #008489;
   width: 40px;
   height: 40px;
   background: white;
   font-size: 17px;
-  color: #1c828c;
+  color: #008489;
   transition: box-shadow .5s;
   &:focus {
     outline: 0;
@@ -86,12 +86,12 @@ Button.displayName = "Button"
 
 const GrayButton = styled.button`
   border-radius: 100%;
-  border: 1px solid #1c828c;
+  border: 1px solid #008489;
   width: 40px;
   height: 40px;
   background: white;
   font-size: 17px;
-  color: #1c828c;
+  color: #008489;
   opacity: 0.2;
   &:focus {
     outline: 0;
@@ -119,7 +119,7 @@ const CloseButton = styled.button`
     font-size: 15px;
     font-weight: bold;
     border: none;
-    color: #1c828c;
+    color: #008489;
     background: white;
     text-align: right;
     &:focus {
