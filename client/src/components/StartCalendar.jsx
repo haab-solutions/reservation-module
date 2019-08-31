@@ -11,7 +11,13 @@ const Modal = styled.div`
   position: absolute;
   top: 70px;
   width: 328px;
-  height: 400px;
+  transition: height 0.3s;
+  -webkit-transition: 0.3s;
+  height: ${props => {
+    return props.weekCount === 5 ? "400px" :
+    props.weekCount === 6 ? "435px;" :
+    "385px;"
+  }};
   margin: 0px 0px 16px;
   padding: 16px 16px;
   display:flex;
@@ -30,6 +36,7 @@ const DisplayWords = styled.div`
   font-size: 18px;
   color: #404040;
   font-weight: bold;
+  transition: width 2s;
 
 `;
 
@@ -68,7 +75,11 @@ const WeekWord = styled.div`
 
 const TableDates = styled.table`
   width: 100%;
-  height: 60%;
+  height:  ${props => {
+    return props.weekCount === 5 ? "60%" :
+    props.weekCount === 6 ? "66.5%" :
+    "53%"
+  }}
   border-collapse: collapse;
   display: table;
   padding-bottom: 20px;
@@ -138,6 +149,7 @@ class Calendar extends React.Component {
       lastYear: null,
       nextYear: null,
       reservationDates: [],
+      weekCount: 5,
     }
   }
   componentDidMount() {
@@ -169,13 +181,13 @@ class Calendar extends React.Component {
       }
     }
 
-    renderMonthYear() {
+  renderMonthYear() {
       var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September",
       "October", "November", "December" ]
       return ` ${months[this.state.month]} ${this.state.year}`
     }
 
-    renderDay() {
+  renderDay() {
       //for padding number with 0
       const zeroPad = (value, length) => {
         return `${value}`.padStart(length, '0');
@@ -194,7 +206,6 @@ class Calendar extends React.Component {
         reservationDates: reservationDates,
       })
     }
-
     //reservation dates in a 3-month period you're in
     const reservationsInMonth = [];
     for (var reservation of this.state.reservationDates) {
@@ -202,7 +213,6 @@ class Calendar extends React.Component {
         reservationsInMonth.push(reservation)
       }
     }
-
     //all dates between reservation dates
     const reservationDatesInMonth =[];
     for (var reservation of reservationsInMonth) {
@@ -235,9 +245,8 @@ class Calendar extends React.Component {
       return (new Date(year, month, 1).getDay());
     }
     //variables of month days and the first day of the month
-    const monthDays = getMonthDays();
     const monthFirstDay = getMonthFirstDay();
-
+    const monthDays = getMonthDays();
     //blank boxes for empty days
     let blanks = [];
     for (let i = 0; i < monthFirstDay; i++) {
@@ -264,7 +273,6 @@ class Calendar extends React.Component {
         )
         continue;
       }
-
       daysInMonth.push (
         <TableCells key = {d} className = {"calendar-day"} onClick = {() => {this.props.onSelect("startDate",d, this.state.month, this.state.year); this.props.onSwitch("start")}}>
             {d}
@@ -302,10 +310,16 @@ class Calendar extends React.Component {
         rows.splice(i, 1)
       }
     }
+    var weekCount = 0;
     //wrapping rows in td
     let daysinmonth = rows.map((d, i) => {
+      weekCount++
       return <TableCellRows>{d}</TableCellRows>
     })
+    //for updating the table size
+    if (weekCount!== this.state.weekCount) {
+      this.reRenderWeekCount(weekCount)
+    }
     return daysinmonth;
   }
 
@@ -379,12 +393,17 @@ class Calendar extends React.Component {
     }
   }
 
+  reRenderWeekCount(number) {
+    this.setState({
+      weekCount: number,
+    })
+  }
 
   render () {
     const weekName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
     return this.props.show === false ? null :
     (
-      <Modal>
+      <Modal weekCount = {this.state.weekCount}>
         <ButtonWords>
           <LeftRight onClick = {() => this.changeMonthYear("left")}>
             Left
@@ -399,7 +418,7 @@ class Calendar extends React.Component {
         <WeekWords>
           {weekName.map(name =><WeekWord>{name}</WeekWord>)}
         </WeekWords>
-        <TableDates>
+        <TableDates weekCount = {this.state.weekCount}>
           {this.renderDay()}
         </TableDates>
         <CloseButton>

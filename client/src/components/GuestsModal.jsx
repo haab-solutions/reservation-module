@@ -65,24 +65,6 @@ const ButtonsWrapper = styled.div`
 `;
 ButtonsWrapper.displayName = "ButtonsWrapper"
 
-const Button = styled.button`
-  border-radius: 100%;
-  border: 1px solid #008489;
-  width: 40px;
-  height: 40px;
-  background: white;
-  font-size: 17px;
-  color: #008489;
-  transition: box-shadow .5s;
-  &:focus {
-    outline: 0;
-  };
-  &:active {
-    outline: 0;
-    box-shadow :  0 0 0 5px white, 0 0 0 6px #808080;
-  }
-`;
-Button.displayName = "Button"
 
 const GrayButton = styled.button`
   border-radius: 100%;
@@ -97,6 +79,19 @@ const GrayButton = styled.button`
     outline: 0;
   };
 `;
+
+const Button = styled(GrayButton)`
+  opacity: 1.0;
+  transition: box-shadow .5s;
+  &:hover {
+    cursor: pointer;
+  };
+  &:active {
+    outline: 0;
+    box-shadow :  0 0 0 5px white, 0 0 0 6px #808080;
+  }
+`;
+Button.displayName = "Button"
 
 
 const Number = styled.div`

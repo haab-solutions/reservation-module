@@ -38,7 +38,7 @@ class App extends React.Component {
 
   getListingdata () {
     $.ajax({
-      url: 'http://localhost:3000/api/listingData/1',
+      url: 'http://localhost:3000/api/listingData/69',
       success: (result) => {
         this.setState({
           cost: result.perNight,
