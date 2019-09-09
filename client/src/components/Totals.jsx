@@ -42,7 +42,7 @@ function Totals (props) {
   return (
     <TotalsOutside>
       <Container>
-        <ContainerWords>${props.state.cost} x {daysInBetween} nights</ContainerWords>
+        <ContainerWords>${props.state.cost} x {Math.floor(daysInBetween)} nights</ContainerWords>
         <ContainerNum>${totalNightsDays}</ContainerNum>
       </Container>
       <FadedLine></FadedLine>

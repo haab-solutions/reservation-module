@@ -113,6 +113,10 @@ const TableCellGray = styled(TableCells)`
 const TableCellStart = styled(TableCells)`
   background-color: #00a699;
   color: white;
+  &:hover {
+    background-color:  #00a699;
+    color: white;
+  }
 `;
 
 const CloseButton = styled.div`
@@ -137,6 +141,29 @@ background-color: white;
 border: none;
 `;
 
+const ArrowRight = styled.div`
+  width: 4px;
+  height: 4px;
+  border: solid black;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  align-self: center;
+`;
+
+const ArrowLeft = styled.div`
+  width: 4px;
+  height: 4px;
+  border: solid black;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  align-self: center;
+`;
 
 class Calendar extends React.Component {
   constructor (props) {
@@ -196,11 +223,16 @@ class Calendar extends React.Component {
     let reservationDates = [];
     if (this.state.reservationDates.length === 0) {
       for (var reservation of this.props.state.reservations) {
-        var startMonth = new Date(reservation.startDate).getMonth()
-        var startDay = new Date(reservation.startDate).getDate()
-        var endMonth = new Date(reservation.endDate).getMonth()
-        var endDay = new Date(reservation.endDate).getDate()
-        reservationDates.push({startMonth: startMonth, startDay: startDay, endMonth: endMonth, endDay: endDay,})
+        let startDate = new Date(reservation.startDate)
+        let endDate = new Date (reservation.endDate)
+        let startMonth = startDate.getMonth()
+        let startDay = startDate.getDate()
+        let startYear = startDate.getFullYear()
+        let endMonth = endDate.getMonth()
+        let endDay = endDate.getDate()
+        let endYear = endDate.getFullYear()
+        reservationDates.push({startMonth: startMonth, startDay: startDay, startYear: startYear, endMonth: endMonth, endDay: endDay, endYear: endYear})
+        console.log(startYear, "this is the startyear")
       }
       this.setState({
         reservationDates: reservationDates,
@@ -209,7 +241,9 @@ class Calendar extends React.Component {
     //reservation dates in a 3-month period you're in
     const reservationsInMonth = [];
     for (var reservation of this.state.reservationDates) {
-      if (reservation.startMonth === this.state.month || reservation.startMonth === this.state.lastMonth|| reservation.startMonth === this.state.nextMonth) {
+      let startMonth = reservation.startMonth
+      let startYear = reservation.startYear
+      if (startMonth === this.state.month && startYear === this.state.year) {
         reservationsInMonth.push(reservation)
       }
     }
@@ -320,6 +354,7 @@ class Calendar extends React.Component {
     if (weekCount!== this.state.weekCount) {
       this.reRenderWeekCount(weekCount)
     }
+    //returns the calendar
     return daysinmonth;
   }
 
@@ -406,13 +441,13 @@ class Calendar extends React.Component {
       <Modal weekCount = {this.state.weekCount}>
         <ButtonWords>
           <LeftRight onClick = {() => this.changeMonthYear("left")}>
-            Left
+            <ArrowLeft></ArrowLeft>
           </LeftRight>
           <DisplayWords>
             {this.renderMonthYear()}
           </DisplayWords>
           <LeftRight onClick = {() => this.changeMonthYear("right")}>
-            Right
+            <ArrowRight></ArrowRight>
           </LeftRight>
         </ButtonWords>
         <WeekWords>

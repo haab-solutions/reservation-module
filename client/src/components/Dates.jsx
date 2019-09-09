@@ -48,7 +48,6 @@ const ArrowRight = styled.div`
   align-self: center;
 `;
 
-
 const StyledCheck = styled.button`
   width: 60%;
   outline: 0;

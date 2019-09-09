@@ -120,6 +120,12 @@ class App extends React.Component {
     Obj[startEnd].month = month;
     Obj[startEnd].year = year;
     this.setState(Obj)
+    if (startEnd === "startDate") {
+      this.setState({
+        endDate: null,
+        blackDate: null,
+      })
+    }
   }
 
   onClearDates() {
