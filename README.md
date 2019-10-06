@@ -1,6 +1,6 @@
-# Project Name
+# AirBnM
 
-> Project description
+> This module is the reservations booking component of the AirBnM listings page.
 
 ## Related Projects
 
@@ -11,20 +11,18 @@
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Description](#Description)
 1. [Requirements](#requirements)
 1. [Development](#development)
 
-## Usage
+## Description
 
-> Some usage instructions
+This reservations booking module contains the price per night, average rating, dynamic calendar, guest counter, and calculator. There are a total of 100 mock listings available through the route localhost:3000/api/listingData/:listingID (1-100). The calendar component within the module dynamically renders available dates based off of the taken dates sent back from the server and database. It then changes the background color of the dates chosen on the start and end dates when hovering over available dates. The guests counter disables adults and children when the maximum number of guests is reached, while disabling infants at a random number determined by the information coming from the database. The calculator is dynamically rendered when the start and end dates are chosen.
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
-- Node 6.13.0
-- etc
+### To Run This Module
+From within the root directory: make sure that MySQL is running and that the root user has no password. Run "npm start" to start the server.
 
 ## Development
 
