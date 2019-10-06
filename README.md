@@ -44,5 +44,4 @@ npm install
 
 ## Images
 
-![image]
-(https://user-images.githubusercontent.com/47989605/66277974-daacc580-e859-11e9-98eb-c9e0a9b339b1.png)
+![image](https://user-images.githubusercontent.com/47989605/66277974-daacc580-e859-11e9-98eb-c9e0a9b339b1.png)
