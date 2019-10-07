@@ -1,0 +1,162 @@
+Reservations SDD for mockup
+
+Challenges/Goals:
+  Design a functional, dynamic, aesthetically-pleasing module that could be integrated into a company  website
+  whose primary function is to reserve rooms at various listings.
+
+  Must have a dynamic calendar which would show which dates are taken, available, and the minimum/maximum days for Reservations
+  Must have an aesthetically-pleasing look in which every cost is calculated according to the options chosen, and shown to the user
+    before reserving.
+  Optional: dynamic rendering based off of the position of the page
+
+
+XXSetup:
+XXInstall necessary dependencies and packages for Client, Server, and Database
+XX  Client:
+XX    React
+XX    Redux
+XX    Babel
+XX    Webpack
+XX    Styled-Components
+XX  Server:
+XX    Express
+XX    Nodemon
+XX  Database:
+XX    MySQL
+XX    Sequelize
+XXCreate schema for mySQL based off the data in which I need to pull
+XX  listings table
+XX  reservations table
+XXGenerate rand om data to be put into database
+XX  100 listing with random data put in
+XX  1000 random reserved dates
+XXPlan:
+XXI. SETUP CLIENT, SERVER, AND DATABASE
+XX  1. Make a working server and client
+XX   a. make a working server using express
+XX      1. should be able to get test data using a get request sent to the root directory
+XX   b. make a working client server using React
+XX      1. should be able to render the html page with test text
+XX      2. should be able to render test text with React component placed inside
+XX  2. Integrate server and database
+XX    a. make necessary API paths to server and database
+XX      1. should be able to GET listing data from database and parse into a JSON object
+XX      2. should be able to GET reservation dates and parse into a JSON object (array of dates)
+XXII.APP DESIGN (OUTER COMPONENT)
+XX  1. Make the outside borders
+XX    a. Use flexbox to create a parent container
+XX      1. should be "pixel-perfect"
+XX        2. should not change when other containers are put inside
+XX      3. should have "report this listing" button at the bottom
+  III. APP DESIGN (COST AND REVIEWS COMPONENT)
+XX  1. Add necessary components/states to the client side
+XX    a. Add component for "costAndReviews"
+XX      1. should have a new custom component integrated into the Outer Component
+XX     b. Add component and necessary state for "costPerNight"
+XX      1. should have a new component for Cost integrated into the costAndReviews component
+XX      2. should have a state which initializes by performing a GET request to the server for the costPerNight of the specific    XX         listing
+XX      3. should be shown on the html correctly
+XX    c. Add component and necessary state for "reviews"
+XX      1. should have a new component for Reviews integrated into the costAndReviews component
+XX      2. should have a state which initializes by performing a GET request to the server for the reviews of the specific listing
+XX      3. should be shown on the html correctly
+    2. Make CSS stylings aesthetically pleasing
+XX    a. Stylize the "costAndReviews" component with this component being the child container and the outer component being the    XX       parent container
+XX    b. Sylize the "costPerNight" component
+XX      1. should be "pixel-perfect"
+XX      2. should have big number and dollar sign font but little font for words
+XX      3. should be static in regards to parent container
+      c. Stylize the "reviews" component
+        1. should have stars associated with the average of reviews
+XX      2. should have number next to the stars
+XX    d. Finish stylizing component
+XX      1. should have faded line at the bottom of the component
+  IV. APP DESIGN (RESERVATION COMPONENT)
+    1. Add necessary components to the client side
+XX    a. Add component for "reservations"
+XX      1. should have a new custom component integrated into the Outer Component underneath the "costAndReviews" component
+XX    b. Add component for dates (to be finished in upcoming part)
+XX      1. should have a new component for Dates integrated into reservations component
+XX      2. should have two buttons on the left and right sides
+XX    c. Add component for "guests" (to be finished in upcoming part)
+XX      1. should have a new component for "guests" integrated into the reservations component
+XX      2. should have a button
+XX    d. Add button for "Reserve"
+      1. should be clickable
+    2. Make CSS stylings aesthetically pleasing
+      a. Stylize the "reservations" component with this component being the child container and the outer component being the parent container, underneath the "costAndReviews"
+      b. Stylize the dates component
+        1. should have "Dates" on top
+        2. should have border
+        3. should have "Check-In" and "Check-Out" on the left and right sides respectively as placeholders for buttons
+        4. should have arrow in between
+      c. Stylize the guests component
+        1. should have "Guests" on top
+        2. should have border on button
+      d. Add reserve button
+        1. should adhere to the reserve button stylings from host website
+        2. should have "You won't be charged yet" words on the bottom
+  V. GUESTS COMPONENT APPLICATION
+    1. Add necessary states to the client side
+XX    a. Add states for "guests" component
+XX      1. should have a state which initializes by performing a GET request to the server for the maximum guests
+XX      2. should have a state which initializes by performing a GET request to the server for the maximum infants
+XX      3. should have a state for number of Guests chosen
+XX       5. should have a state for number of infants chosen
+    2. Add a drop down table for selecing the amount of guests and infants
+      a. add options with buttons
+        1. should have an adults option with plus and minus buttons that have onchange buttons attached to the number of adults chosen
+        2.should have a children option with plus and minus buttons that have onchange buttons attached to the number of children chosen
+        3.should have an infants option with plus and minus buttons that have onchange buttons attached to the number of infants chosen
+        4. all buttons should change the number shown in between the plus and minus buttons according to the state
+      b. display the state chosen on the display
+        1. based off the adults and children state, display guests with number
+        2. based off the infants state, display infants with number
+    3.Make CSS stylings pleasing
+      a.Stylize the display
+        1. should match font size
+        2. should have an arrow pointing down on the side
+      b. Stylize when table is shown
+        1. should match font size for guests when open table
+        2. should be highlighted for guests
+        3. should match font size for infants
+        4. should have aesthetic buttons
+        5. should have correct words on table
+        6. should have close button which closes the table
+        7. should have an arrow pointing up on the side of the display
+  VI. DATES COMPONENT APPLICATION
+    1.+
+     Add necessary states to the client side
+      a. Add states for "dates"
+        1.
+*************************************************** TO DO PART 6 ***********************************************************************
+  VII. TOTALAMOUNT COMPONENT DESIGN AND APPLICATION
+    1. Add necessary component to the client side
+      a. Add component for "totalAmount"
+        1. should have a new custom component integrated into the reservations parent component underneath the "guests" component
+      b. Add states necessary for "totalAmount"
+        1. add state which initializes from the cleaning fee GET request from server
+        2. add state which initializes from the service fee GET request from server
+        3. add state which initializes from the occupancy fee GET request from server
+      c. add component parts inside "total amount"
+        1. should have cost per night and total days multiplied. Show all parts
+        2. should have cleaning fee
+        3. should have service fee
+        4. should have occupancy and tax fee
+        5. should have total
+      d. Make CSS stylings aesthetically pleasing
+        1. should have matching font size
+        2. should have buttons for question marks beside each text on the left (will add functionality in future)
+
+************************************MVP DONE********************************************************************
+  VIII. BUTTON FUNCTIONALITY TOTALAMOUNT COMPONENT
+
+  IX. SCROLL DOWN POP UP
+
+********************************FINISHED PRODUCT MODULE ONE DONE************************************************
+
+TO DO: FIX CSS ON REPORT LISTINGS;
+
+
+
+

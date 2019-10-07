@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/src/index.jsx',
+  entry: './client/src/components/App.jsx',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './public')
+    path: path.resolve(__dirname, './public'),
+    library: 'Reservations',
   },
   module: {
     rules: [
@@ -17,7 +18,15 @@ module.exports = {
             presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ]
   }
 };
