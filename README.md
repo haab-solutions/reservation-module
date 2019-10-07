@@ -23,6 +23,7 @@ This reservations booking module contains the price per night, average rating, d
 ## Requirements
 
 ### To Run This Module
+
 From within the root directory: make sure that MySQL is running and that the root user has no password.
 
 Run "npm run DB" and "npm run seed" to build the database, build the schema, and seed the database.
@@ -30,6 +31,7 @@ Run "npm run DB" and "npm run seed" to build the database, build the schema, and
 Run "npm run start" to start the server.
 
 If further optimizations are made, run "npm run build" to watch your changes.
+
 
 ## Development
 
